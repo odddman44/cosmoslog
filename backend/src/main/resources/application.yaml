@@ -7,7 +7,7 @@ spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/cosmoslog
     username: cosmoslog
-    password: kwohdev132!
+    password: cosmoslog
   jpa:
     hibernate:
       ddl-auto: none

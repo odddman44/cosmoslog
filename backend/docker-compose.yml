@@ -7,7 +7,7 @@ services:
     environment:
       POSTGRES_DB: cosmoslog
       POSTGRES_USER: cosmoslog
-      POSTGRES_PASSWORD: kwohdev132!
+      POSTGRES_PASSWORD: cosmoslog
     volumes:
       - pgdata:/var/lib/postgresql/data
 

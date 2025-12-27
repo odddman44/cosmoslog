@@ -1,0 +1,11 @@
+server:
+  port: 18080
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/cosmoslog_local
+    username: cosmoslog
+    password: cosmoslog_local_pw
+  jpa:
+    hibernate:
+      ddl-auto: update

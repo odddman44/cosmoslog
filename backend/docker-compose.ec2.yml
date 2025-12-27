@@ -1,0 +1,15 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: cosmoslog-postgres-ec2
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: cosmoslog_ec2
+      POSTGRES_USER: cosmoslog
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - pgdata_ec2:/var/lib/postgresql/data
+
+volumes:
+  pgdata_ec2:

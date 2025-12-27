@@ -1,0 +1,12 @@
+server:
+  port: 8080
+
+spring:
+  datasource:
+    # EC2에서는 앱도 같은 호스트에서 돌릴 거니까 (초기엔) localhost로
+    url: jdbc:postgresql://localhost:5432/cosmoslog_ec2
+    username: cosmoslog
+    password: ${DB_PASSWORD:?DB_PASSWORD is required}
+  jpa:
+    hibernate:
+      ddl-auto: validate

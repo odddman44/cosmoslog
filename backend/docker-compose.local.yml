@@ -1,0 +1,15 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: cosmoslog-postgres-local
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: cosmoslog_local
+      POSTGRES_USER: cosmoslog
+      POSTGRES_PASSWORD: cosmoslog_local_pw
+    volumes:
+      - pgdata_local:/var/lib/postgresql/data
+
+volumes:
+  pgdata_local:

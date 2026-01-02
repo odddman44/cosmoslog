@@ -3,13 +3,20 @@ services:
     image: postgres:16
     container_name: cosmoslog-postgres-local
     ports:
-      - "5432:5432"
+      - "15432:5432"
     environment:
-      POSTGRES_DB: cosmoslog_local
-      POSTGRES_USER: cosmoslog
-      POSTGRES_PASSWORD: cosmoslog_local_pw
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     volumes:
       - pgdata_local:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U cosmoslog -d cosmoslog_local" ]
+      interval: 5s
+      timeout: 5s
+      retries: 10
 
 volumes:
   pgdata_local:
+
+

@@ -1,4 +1,4 @@
-package org.cosmoslog.demo.global.config;
+package org.cosmoslog.global.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,7 +14,7 @@ public class SecurityConfig {
 		http
 				.csrf(csrf -> csrf.disable())
 				.authorizeHttpRequests(auth -> auth
-						.requestMatchers( "/health" ).permitAll()
+						.requestMatchers( "/", "/health", "/editor/**", "/css/**", "/js/**", "/images/**" ).permitAll()
 						.anyRequest().authenticated()
 				)
 				// 개발 단계에서, 일단 basic auth 켜두기

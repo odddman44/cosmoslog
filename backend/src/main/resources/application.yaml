@@ -3,5 +3,5 @@ spring:
     name: cosmoslog
   jpa:
     hibernate:
-      ddl-auto: validate
+      ddl-auto: validate  # validate : DB 스키마를 만들거나 수정하지 않고, 엔티티와 DB 구조가 맞는지만 검사한다.
     open-in-view: false

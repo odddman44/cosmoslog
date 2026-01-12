@@ -1,3 +1,5 @@
+# docker-compose 파일은 실행 레시피 같은 것이다. 도커 이미지를 어떤 설정으로 실행할지 정의
+# Dockerfile은 이미지(=실행 패키지)를 어떻게 만들지 를 정의한다.
 services:
   postgres:
     image: postgres:16
@@ -11,7 +13,7 @@ services:
     volumes:
       - pgdata_local:/var/lib/postgresql/data
     healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -U cosmoslog -d cosmoslog_local" ]
+      test: [ "CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB" ]
       interval: 5s
       timeout: 5s
       retries: 10

@@ -1,14 +1,61 @@
 services:
+  reverse-proxy:
+    image: nginx:1.27-alpine
+    container_name: cosmoslog-proxy
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/conf.d/default.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - frontend
+      - backend
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ../frontend
+      dockerfile: Dockerfile
+    container_name: cosmoslog-frontend
+    expose:
+      - "80"
+    restart: unless-stopped
+
+  backend:
+    build:
+      context: ../backend
+      dockerfile: Dockerfile
+    container_name: cosmoslog-backend
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+      # 스프링에서 DB 연결에 쓰는 값들
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_NAME=${POSTGRES_DB}
+      - DB_USER=${POSTGRES_USER}
+      - DB_PASSWORD=${POSTGRES_PASSWORD}
+    expose:
+      - "8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+
   postgres:
     image: postgres:16
-    container_name: cosmoslog-postgres-ec2
+    container_name: cosmoslog-postgres
     ports: [] #내부에서만 접근
     environment:
-      POSTGRES_DB: cosmoslog_ec2
-      POSTGRES_USER: cosmoslog
-      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     volumes:
-      - pgdata_ec2:/var/lib/postgresql/data
+      - pgdata_prod:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB" ]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    restart: unless-stopped
 
 volumes:
-  pgdata_ec2:
+  pgdata_prod:
